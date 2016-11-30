@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import datetime
+import sys
 
 from sklearn.tree import DecisionTreeRegressor
 
@@ -21,7 +22,8 @@ def computePrediction(date, assignment, data):
                         (x.ASS_ASSIGNMENT == assignment) & 
                         (x.HOUR == date.hour) & 
                         (x.DATE < date + datetime.timedelta(30)) &
-                        (x.DATE > date - datetime.timedelta(30))]
+                        (x.DATE > date - datetime.timedelta(30)) & 
+                        (x.DAY_OFF == 0)]
     if len(relevant) > 0 :
         if showGraphs and relevant.quantile(0.95).CSPL_CALLS > 0 :
             relevant.CSPL_CALLS.plot(marker='o')
@@ -66,6 +68,15 @@ def loadPredictions() :
 data = loadData();
 prediction = loadPredictions()
 print("Training data is loaded (" + str(len(data.index)) + ")")
+
+flag = {}
+for i in range(len(data.index)):
+    date = data.iloc[i]["DATE"]
+    if data.iloc[i]["DAY_OFF"] == 1 and not ((date.month, date.day) in flag) :
+        print(str(date.month) + "/" + str(date.day))
+        flag[(date.month, date.day)] = 1
+
+sys.exit();
 
 nonZeroRes = 0;
 predictionsNb = len(prediction.index)
