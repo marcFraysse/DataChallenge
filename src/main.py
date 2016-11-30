@@ -1,4 +1,4 @@
-import pandas as pd
+import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
 import time
@@ -7,7 +7,7 @@ import datetime
 from sklearn.tree import DecisionTreeRegressor
 
 data_size = -1; #max is 1030829
-resFileName = '../submissionQ9.txt'
+resFileName = '../submissionQ95.txt'
 showGraphs= False;
 
 reg = DecisionTreeRegressor(max_depth=2)
@@ -23,12 +23,12 @@ def computePrediction(date, assignment, data):
                         (x.DATE < date + datetime.timedelta(30)) &
                         (x.DATE > date - datetime.timedelta(30))]
     if len(relevant) > 0 :
-        if showGraphs and relevant.quantile(0.9).CSPL_CALLS > 0 :
+        if showGraphs and relevant.quantile(0.95).CSPL_CALLS > 0 :
             relevant.CSPL_CALLS.plot(marker='o')
-            print(str(len(relevant)) + " points plotted, result is : " + str(relevant.quantile(0.9, interpolation='higher').CSPL_CALLS))
+            print(str(len(relevant)) + " points plotted, result is : " + str(relevant.quantile(0.95, interpolation='higher').CSPL_CALLS))
             plt.show()
             plt.close()
-        return relevant.quantile(0.9, interpolation='higher').CSPL_CALLS
+        return relevant.quantile(0.95, interpolation='higher').CSPL_CALLS
     else :
         return 0
     
@@ -49,10 +49,10 @@ def loadData() :
 
     pd.set_option('display.max_rows', len(data.iloc[0]))
     data = data.groupby(['DATE', 'ASS_ASSIGNMENT', 'WEEK_END']).sum().reset_index()
-    data['WEEKDAY'] = data['DATE'].map(lambda x : x.weekday());
-    data['MONTH'] = data['DATE'].map(lambda x : x.month);
-    data['HOUR'] = data['DATE'].map(lambda x : x.hour);
-    data['MINUTE'] = data['DATE'].map(lambda x : x.minute);
+    data['WEEKDAY'] = data['DATE'].map(lambda x : x.weekday())
+    data['MONTH'] = data['DATE'].map(lambda x : x.month)
+    data['HOUR'] = data['DATE'].map(lambda x : x.hour)
+    data['MINUTE'] = data['DATE'].map(lambda x : x.minute)
     return data
 
 def loadPredictions() : 
