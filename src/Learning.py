@@ -28,8 +28,8 @@ def loadData() :
     data['MINUTE'] = data['DATE'].map(lambda x : x.minute)
     return data
 
-def hashCode(weekday,year, month, hour, ass_assignment):
-    hash = str(weekday//5) +str(year) + str(month) + str(hour) + ass_assignment
+def hashCode(day,year, month, hour, ass_assignment):
+    hash = str(day//5) +str(year) + str(month) + str(hour) + ass_assignment
     return hash
 
 """ Main frame """
