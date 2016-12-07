@@ -28,8 +28,8 @@ def loadData() :
     data['MINUTE'] = data['DATE'].map(lambda x : x.minute)
     return data
 
-def hashCode(weekday, month, hour, ass_assignment):
-    hash = str(weekday//5) + str(month) + str(hour) + ass_assignment
+def hashCode(weekday,year, month, hour, ass_assignment):
+    hash = str(weekday//5) +str(year) + str(month) + str(hour) + ass_assignment
     return hash
 
 """ Main frame """
@@ -43,9 +43,9 @@ dataNb = len(data.index)
 for i in range(dataNb):
     date = data.iloc[i]['DATE']
     assignment = data.iloc[i]['ASS_ASSIGNMENT']
-    if(not hashCode(date.weekday(),date.month,date.hour,assignment) in relevant):
-        relevant[hashCode(date.weekday(),date.month,date.hour,assignment)] = np.array([])
-    relevant[hashCode(date.weekday(),date.month,date.hour,assignment)] = np.append(data.iloc[i]['CSPL_RECEIVED_CALLS'],relevant[hashCode(date.weekday(),date.month,date.hour,assignment)])
+    if(not hashCode(date.weekday(),date.year,date.month,date.hour,assignment) in relevant):
+        relevant[hashCode(date.weekday(),date.year,date.month,date.hour,assignment)] = np.array([])
+    relevant[hashCode(date.weekday(),date.year,date.month,date.hour,assignment)] = np.append(data.iloc[i]['CSPL_RECEIVED_CALLS'],relevant[hashCode(date.weekday(),date.year,date.month,date.hour,assignment)])
     if(i%10000==0):    
         print(i)
 for key in relevant.keys():

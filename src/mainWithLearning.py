@@ -10,8 +10,8 @@ def loadPredictions() :
     prediction = pd.read_table('../submission.txt', parse_dates = ['DATE'])
     return prediction
 
-def hashCode(weekday, month, hour, ass_assignment):
-    hash = str(weekday//5) + str(month) + str(hour) + ass_assignment
+def hashCode(weekday,year, month, hour, ass_assignment):
+    hash = str(weekday//5) +str(year) + str(month) + str(hour) + ass_assignment
     return hash
 
 """ main frame """
@@ -34,8 +34,8 @@ for i in range(predictionsNb) :
     if (date, assignment) in computed :
         res = computed[(date, assignment)]
     else :
-        if(hashCode(date.weekday(),date.month,date.hour,assignment) in quantiles):
-            res = quantiles[hashCode(date.weekday(),date.month,date.hour,assignment)]
+        if(hashCode(date.weekday(),date.year,date.month,date.hour,assignment) in quantiles):
+            res = quantiles[hashCode(date.weekday(),date.year,date.month,date.hour,assignment)]
         else:
             res = 10
         if res > 0 : 
